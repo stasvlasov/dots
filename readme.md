@@ -1,70 +1,58 @@
----
-author: stas
-title: Lala
----
+An alternative way to access dots arguments without explicitly passing
+it through calling stack that allows updating default dots arguments
+that are explicitly set throughout calling stack.
 
-Suppose you wrote a nice utility funciton (`util`) for your package that
-you are going to use internaly a lot and relies on optional arguments
-passed from the main function:
+# The \'problem\' this package solves
+
+Suppose you wrote a nice utility funciton (`util`) for your package:
 
 ``` {.r org-language="R"}
 util <- function(foo = 0, bar = 0) {
-    # prints list of argumetns
-    environment() |> as.list() |> print() 
+    message("foo: ", foo, ", bar: ", bar)
 }
 
 util()
-# $foo
-# [1] 0
-# $bar
-# [1] 0
+#> foo: 0, bar: 0
 ```
 
-The obvious approach is to use special `...` argument to pass optional
-arguments to internal function calls:
+You are going to use this `util` function a lot internaly and you want
+to pass some optional arguments passed from the upper function calls.
+Usually you will use special `...` argument to do that:
 
 ``` {.r org-language="R"}
 main <- function (...) {
-util(...)
+    util(...)
 }
 
 main(foo = 0, bar = 1)
-# $foo
-# [1] 0
-# $bar
-# [1] 0
+#> foo: 0, bar: 1
 ```
 
-It is wonderful but troubles come if you need to set/fix one of the
-arguments in your `util` function directlly because it can introduce
-multiple arguments with the same name:
+But, if at some point you need to set one of the arguments in your
+`util` function directlly this can introduce errors (known as \"matched
+by multiple actual arguments\"):
 
 ``` {.r org-language="R"}
 main <- function (...) {
-util(foo = 0, ...)
+    util(foo = 0, ...)
 }
 
 main()
-# $foo
-# [1] 0
-# $bar
-# [1] 0
+#> foo: 0, bar: 0
 
 main(bar = 1)
-# $foo
-# [1] 0
-# $bar
-# [1] 1
+#> foo: 0, bar: 1
 
 main(foo = 1)
-# Error in util(foo = 0, ...)
-# formal argument "foo" matched by multiple actual arguments
+#> Error in util(foo = 0, ...) :
+#  formal argument "foo" matched by multiple actual arguments
 ```
 
-The `get_dots` function provided by `get_dots` allows you access dots
-arguments without conficts and updates arguments that are set explicitly
-in the function calls. You can simply put `get_dots` inside your `util`
-function and bind it results into environment:
+The `dots` package provides a function `get_dots` that allows you to
+access dots arguments without conflicts and update arguments that are
+set explicitly in the function calls. You can simply put `get_dots`
+inside your `util` function, bind it\'s results into local environment
+and proceed with out explicitly passing dots parameter:
 
 ``` {.r org-language="R"}
 util <- function(foo = 0, bar = 0) {
@@ -74,14 +62,13 @@ util <- function(foo = 0, bar = 0) {
         assign(v, dots[[v]])
     }
     rm(dots, v)
-    # prints list of argumetns
-    environment() |> as.list() |> print() 
+    # report argumetns
+    message("foo: ", foo, ", bar: ", bar)
 }
-```
 
-And then you can work without explicitly passing `...` argument.
+util()
+#> foo: 0, bar: 0
 
-``` {.r org-language="R"}
 main <- function (...) {
     util(foo = 0) 
     util()        
@@ -89,29 +76,26 @@ main <- function (...) {
 }
 
 main(foo = 1, bar = 0)
-# $foo
-# [1] 0
-# 
-# $bar
-# [1] 0
-# 
-# $foo
-# [1] 1
-# 
-# $bar
-# [1] 0
-# 
-# $foo
-# [1] 1
-# 
-# $bar
-# [1] 1
+#> foo: 0, bar: 0
+#> foo: 1, bar: 0
+#> foo: 1, bar: 1  # THIS WORKS NOW!
 ```
 
-`get_dots` can also collect and update `...` arguments in case of more
-nesting:
+`get_dots` can also collect and update `...` arguments up through stack
+of nested of calls:
 
 ``` {.r org-language="R"}
+util <- function(foo = 0, bar = 0) {
+    dots <- get_dots(search_up_nframes = 3L)
+    # bind updated arguments to local environment
+    for (v in names(dots)) {
+        assign(v, dots[[v]])
+    }
+    rm(dots, v)
+    # report arguments
+    message("foo: ", foo, ", bar: ", bar)
+}
+
 main <- function (...) {
     util()
     sub_main(foo = 1)
@@ -127,23 +111,24 @@ sub_sub_main <- function (...) {
 }
 
 main()
-# $foo
-# [1] 0
-# 
-# $bar
-# [1] 0
-# 
-# $foo
-# [1] 1
-# 
-# $bar
-# [1] 0
-# 
-# $foo
-# [1] 1
-# 
-# $bar
-# [1] 2
+#> foo: 0, bar: 0
+#> foo: 1, bar: 0
+#> foo: 0, bar: 2
 ```
 
-More features will come...
+# Features of `get_dots` function
+
+-   Limit looking up for dots arguments updates by specifying (see
+    `get_dot` parameters documentation):
+    -   number of frames (see last example)
+    -   function name up to which to look up in calling stack
+    -   look up calling stack while calls belong to specific
+        environment/package
+    -   look up calling stack while calls name matches specific regular
+        expression
+-   More to come...
+
+# What next?
+
+It is work in progress/prove of concept/ Please, submit issues,
+questions:)
