@@ -28,9 +28,9 @@ main(foo = 0, bar = 1)
 #> foo: 0, bar: 1
 ```
 
-But, if at some point you need to set one of the arguments in your
-`util` function directlly this can introduce errors (known as \"matched
-by multiple actual arguments\"):
+But, here is the problem if at some point you need to set one of the
+arguments in your `util` function directlly this can introduce errors
+(known as \"matched by multiple actual arguments\"):
 
 ``` {.r org-language="R"}
 main <- function (...) {
@@ -81,8 +81,10 @@ main(foo = 1, bar = 0)
 #> foo: 1, bar: 1  # THIS WORKS NOW!
 ```
 
-`get_dots` can also collect and update `...` arguments up through stack
-of nested of calls:
+# Features of `get_dots` function
+
+-   `get_dots` can also collect and update `...` arguments up through
+    stack of nested of calls:
 
 ``` {.r org-language="R"}
 util <- function(foo = 0, bar = 0) {
@@ -116,8 +118,6 @@ main()
 #> foo: 0, bar: 2
 ```
 
-# Features of `get_dots` function
-
 -   Limit looking up for dots arguments updates by specifying (see
     `get_dot` parameters documentation):
     -   number of frames (see last example)
@@ -128,7 +128,20 @@ main()
         expression
 -   More to come...
 
+# Installation
+
+You can get it from github with:
+
+``` {.r org-language="R"}
+devtools::install_github("stasvlasov/dots")
+```
+
+The `dots` package is pretty small and has no dependencies. However, if
+you have wonderful `checkmate` package installed (you can get it with
+`install.packages("checkmate")`) it will be used for checking `get_dots`
+arguments.
+
 # What next?
 
-It is work in progress/prove of concept/ Please, submit issues,
+It is work in progress/prove of concept. Please, submit issues,
 questions:)
