@@ -1,3 +1,7 @@
+---
+title: dots
+---
+
 An alternative way to access dots arguments without explicitly passing
 it through calling stack that allows updating default dots arguments
 that are explicitly set throughout calling stack.
@@ -34,16 +38,16 @@ arguments in your `util` function directlly this can introduce errors
 
 ``` {.r org-language="R"}
 main <- function (...) {
-    util(foo = 0, ...)
+    util(foo = 1, ...)
 }
 
 main()
-#> foo: 0, bar: 0
+#> foo: 1, bar: 0
 
-main(bar = 1)
-#> foo: 0, bar: 1
+main(bar = 2)
+#> foo: 1, bar: 2
 
-main(foo = 1)
+main(foo = 2)
 #> Error in util(foo = 0, ...) :
 #  formal argument "foo" matched by multiple actual arguments
 ```
@@ -55,9 +59,11 @@ inside your `util` function, bind it\'s results into local environment
 and proceed with out explicitly passing dots parameter:
 
 ``` {.r org-language="R"}
+library("dots")
+
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- get_dots()
+    dots <- dots::get_dots()
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -70,15 +76,15 @@ util()
 #> foo: 0, bar: 0
 
 main <- function (...) {
-    util(foo = 0) 
-    util()        
-    util(bar = 1) 
+    util()
+    util(foo = 1) 
+    util(bar = 1)
 }
 
-main(foo = 1, bar = 0)
-#> foo: 0, bar: 0
-#> foo: 1, bar: 0
-#> foo: 1, bar: 1  # THIS WORKS NOW!
+main(foo = 2, bar = 2)
+#> foo: 2, bar: 2
+#> foo: 1, bar: 2  # THIS WORKS NOW!
+#> foo: 2, bar: 1  # THIS WORKS NOW!
 ```
 
 # Features of `get_dots` function
@@ -88,7 +94,7 @@ main(foo = 1, bar = 0)
 
 ``` {.r org-language="R"}
 util <- function(foo = 0, bar = 0) {
-    dots <- get_dots(search_up_nframes = 3L)
+    dots <- dots::get_dots(search_up_nframes = 3L)
     # bind updated arguments to local environment
     for (v in names(dots)) {
         assign(v, dots[[v]])
