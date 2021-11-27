@@ -1,7 +1,4 @@
-<!-- [![repo size](https://img.shields.io/github/repo-size/liyasthomas/banner.svg)](https://github.com/stasvlasov/dots/archive/master.zip) -->
-
-[![repo-size](https://img.badgesize.io/stasvlasov/dots/archive/master.svg)](https://img.badgesize.io/stasvlasov/dots/archive/master.svg)
-
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/dots)
 
 [![R-CMD-check](https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
 
