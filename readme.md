@@ -1,4 +1,12 @@
-[![repo size](https://img.shields.io/github/repo-size/liyasthomas/banner.svg)](https://github.com/stasvlasov/dots/archive/master.zip)
+<!-- [![repo size](https://img.shields.io/github/repo-size/liyasthomas/banner.svg)](https://github.com/stasvlasov/dots/archive/master.zip) -->
+
+[![repo-size](https://img.badgesize.io/stasvlasov/dots/archive/master.svg)](https://img.badgesize.io/stasvlasov/dots/archive/master.svg)
+
+
+[![R-CMD-check](https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
+
+[![test-coverage](https://github.com/stasvlasov/get_dots/workflows/test-coverage/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
+
 
 An alternative way to access dots arguments without explicitly passing
 it through calling stack that allows updating default dots arguments
