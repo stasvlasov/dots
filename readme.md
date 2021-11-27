@@ -1,6 +1,4 @@
----
-title: dots
----
+[![repo size](https://img.shields.io/github/repo-size/liyasthomas/banner.svg)](https://github.com/stasvlasov/dots/archive/master.zip)
 
 An alternative way to access dots arguments without explicitly passing
 it through calling stack that allows updating default dots arguments
