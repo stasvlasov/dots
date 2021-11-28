@@ -1,13 +1,6 @@
-#' @details
-#' An alternative way to interact with ~...~ dots arguments (aka ellipses).
-#' 
-#' Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
-#' @keywords internal
-"_PACKAGE"
-
-##' An alternative way to interact with ~...~ dots arguments (aka ellipses).
-##' 
-##' Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
+##' An alternative way to interact with `...` dots arguments (aka ellipses).
+##'
+##' Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 ##'
 ##' @param function_or_arg_list The end function that meant to accept dots arguments (default arguments accessed with `formals(function_or_arg_list)`) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with `sys.function(-1L)`).
 ##' @param select_args Which arguments to select from `function_or_arg_list`. Ether character or numeric vector.
