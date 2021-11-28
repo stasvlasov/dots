@@ -96,9 +96,3 @@ get_dots <- function(function_or_arg_list = NULL
     }
     return (arg_update)
 }
-
-
-dummy_function <- function() {
-
-     return()
- }
