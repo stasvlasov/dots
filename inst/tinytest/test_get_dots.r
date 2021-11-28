@@ -141,15 +141,7 @@ sub_sub_main <- function (..., arg_shold_be_present = NULL) {
     util()
 }
 
-
 expect_equal(main(foo = 3, bar = 3), list(0, 2))
-
-
-
-
-
-
-
 
 ## test fun call belongs to env (package)
 util <- function(foo = 0, bar = 0) {
@@ -182,14 +174,10 @@ sub_sub_main <- function (..., arg_shold_be_present = NULL) {
 
 environment(sub_sub_main) <- env
 
-environmentName(environment(sub_sub_main))
-environmentName(environment(sub_main))
+## environmentName(environment(sub_sub_main))
+## environmentName(environment(sub_main))
 
 expect_equal(main(foo = 3, bar = 3), list(0, 2))
-
-
-
-
 
 ## test fun call belongs to env (package)
 util <- function(foo = 0, bar = 0) {

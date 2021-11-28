@@ -52,8 +52,8 @@ main(foo = 2)
 #  formal argument "foo" matched by multiple actual arguments
 ```
 
-The `dots` package provides a function `get_dots` that allows you to
-access dots arguments without conflicts and update arguments that are
+The `dots` package provides a function `get_dots` [^1] that allows you
+to access dots arguments without conflicts and update arguments that are
 set explicitly in the function calls. You can simply put `get_dots`
 inside your `util` function, bind it\'s results into local environment
 and proceed with out explicitly passing dots parameter:
@@ -92,7 +92,7 @@ main(foo = 2, bar = 2)
 
 ``` {#example-nesting .r org-language="R"}
 util <- function(foo = 0, bar = 0) {
-    dots <- dots::get_dots(search_up_nframes = 3L)
+    dots <- dots:::get_dots(search_up_nframes = 3L)
     # bind updated arguments to local environment
     for (v in names(dots)) {
         assign(v, dots[[v]])
@@ -149,3 +149,7 @@ arguments.
 
 It is work in progress/prove of concept. Please, submit issues,
 questions:)
+
+[^1]: Note that the `get_dots` function is called with `:::` as
+    `dots:::get_dots`. This is because the intendent use is internal
+    only it is not added to `NAMESPACE`.

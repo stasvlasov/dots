@@ -64,7 +64,7 @@ main(foo = 2, bar = 2)
 
 # Nested calls example
 util <- function(foo = 0, bar = 0) {
-    dots <- dots::get_dots(search_up_nframes = 3L)
+    dots <- dots:::get_dots(search_up_nframes = 3L)
     # bind updated arguments to local environment
     for (v in names(dots)) {
         assign(v, dots[[v]])
