@@ -1,10 +1,14 @@
 Package: dots
-Title: 
+Title: An alternative way to interact with `...` dots arguments (aka
+    ellipses).
 Version: 0.0.0.9000
 Date: 2021-11-28
 Authors@R: 
     person("Stanislav", "Vlasov", , "s.vlasov@uvt.nl", role = c("aut", "cre"))
-Description: 
+Description: Provides access to `...` dots arguments without explicitly
+    passing it through calling stack and allows updating default values
+    that are explicitly set throughout calling stack (lower calls take
+    prevalence).
 License: Apache License (>= 2)
 Depends: 
     R (>= 3.4)
