@@ -58,12 +58,10 @@ set explicitly in the function calls. You can simply put `get_dots`
 inside your `util` function, bind it\'s results into local environment
 and proceed with out explicitly passing dots parameter:
 
-``` {.r org-language="R"}
-library("dots")
-
+``` {#example-basic .r org-language="R"}
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots::get_dots()
+    dots <- dots:::get_dots()
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -92,7 +90,7 @@ main(foo = 2, bar = 2)
 -   `get_dots` can also collect and update `...` arguments up through
     stack of nested of calls:
 
-``` {.r org-language="R"}
+``` {#example-nesting .r org-language="R"}
 util <- function(foo = 0, bar = 0) {
     dots <- dots::get_dots(search_up_nframes = 3L)
     # bind updated arguments to local environment

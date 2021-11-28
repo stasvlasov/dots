@@ -9,7 +9,6 @@ util <- function(foo = 0, bar = 0) {
     list(foo, bar)
 }
 
-
 ## check basics
 expect_equal(dots:::get_dots(expect_equal)
            , as.list(formals("expect_equal")))
@@ -23,9 +22,6 @@ expect_equal(dots:::get_dots(util, select_args = "foo")
 expect_equal(dots:::get_dots(util, select_args = c("bar" ,"foo"))
            , as.list(formals("util")[c("bar" ,"foo")]))
 
-
-
-
 main <- function (...) {
     util(bar = 1) 
 }
@@ -38,7 +34,6 @@ main <- function (...) {
 }
 
 expect_equal(main(foo = 1, bar = 0), list(0, 0))
-
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
@@ -88,7 +83,6 @@ sub_main <- function (...) {
 sub_sub_main <- function (...) {
     util()
 }
-
 
 expect_equal(main(foo = 3, bar = 3), list(0, 2))
 

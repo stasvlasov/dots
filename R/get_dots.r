@@ -9,6 +9,65 @@
 ##' @param search_while_calls_regexp Regular expression that each function name in upper calls to should matched to continue looking up the call stack for updates in dots arguments.
 ##' @param search_up_nframes Number of frames (aka environments) in calling stack to look up for updates in dots arguments.
 ##' @param search_up_to_call The name of the call before which to continue looking up the call stack for updates in dots arguments.
+##'
+##' @examples
+##' # Basic example
+##' util <- function(foo = 0, bar = 0) {
+##'     # binds updated arguments into environment
+##'     dots <- dots:::get_dots()
+##'     for (v in names(dots)) {
+##'         assign(v, dots[[v]])
+##'     }
+##'     rm(dots, v)
+##'     # report argumetns
+##'     message("foo: ", foo, ", bar: ", bar)
+##' }
+##' 
+##' util()
+##' #> foo: 0, bar: 0
+##' 
+##' main <- function (...) {
+##'     util()
+##'     util(foo = 1) 
+##'     util(bar = 1)
+##' }
+##' 
+##' main(foo = 2, bar = 2)
+##' #> foo: 2, bar: 2
+##' #> foo: 1, bar: 2  # THIS WORKS NOW!
+##' #> foo: 2, bar: 1  # THIS WORKS NOW!
+##'
+##' # Nested calls example
+##' util <- function(foo = 0, bar = 0) {
+##'     dots <- dots::get_dots(search_up_nframes = 3L)
+##'     # bind updated arguments to local environment
+##'     for (v in names(dots)) {
+##'         assign(v, dots[[v]])
+##'     }
+##'     rm(dots, v)
+##'     # report arguments
+##'     message("foo: ", foo, ", bar: ", bar)
+##' }
+##' 
+##' main <- function (...) {
+##'     util()
+##'     sub_main(foo = 1)
+##' }
+##' 
+##' sub_main <- function (...) {
+##'     util()
+##'     sub_sub_main(bar = 2)
+##' }
+##' 
+##' sub_sub_main <- function (...) {
+##'     util()
+##' }
+##' 
+##' main()
+##' #> foo: 0, bar: 0
+##' #> foo: 1, bar: 0
+##' #> foo: 0, bar: 2
+##' 
 ##' @return List of updated dots arguments
 ##' 
 ##' @md 
