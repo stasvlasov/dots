@@ -106,12 +106,10 @@ set explicitly in the function calls. You can simply put `get_dots`
 inside your `util` function, bind it\'s results into local environment
 and proceed with out explicitly passing dots parameter:
 
-``` {.r org-language="R"}
-library("dots")
-
+``` {#example-basic .r org-language="R"}
 util &lt;- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots &lt;- dots::get_dots()
+    dots &lt;- dots:::get_dots()
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -141,7 +139,7 @@ main(foo = 2, bar = 2)
 <li>
 <code>get_dots</code> can also collect and update <code>...</code> arguments up through stack of nested of calls:</li>
 </ul>
-<p>``` {.r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
+<p>``` {#example-nesting .r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
 <p>main &lt;- function (…) { util() sub_main(foo = 1) }</p>
 <p>sub_main &lt;- function (…) { util() sub_sub_main(bar = 2) }</p>
 <p>sub_sub_main &lt;- function (…) { util() }</p>
