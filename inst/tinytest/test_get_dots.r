@@ -12,16 +12,16 @@ util <- function(foo = 0, bar = 0) {
 
 ## check basics
 expect_equal(get_dots(expect_equal)
-           , formals("expect_equal"))
+           , as.list(formals("expect_equal")))
 
 expect_equal(get_dots(util)
-           , formals("util"))
+           , as.list(formals("util")))
 
 expect_equal(get_dots(util, select_args = "foo")
-           , formals("util")["foo"])
+           , as.list(formals("util")["foo"]))
 
 expect_equal(get_dots(util, select_args = c("bar" ,"foo"))
-           , formals("util")[c("bar" ,"foo")])
+           , as.list(formals("util")[c("bar" ,"foo")]))
 
 
 

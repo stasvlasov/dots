@@ -39,7 +39,7 @@ get_dots <- function(function_or_arg_list = NULL
     if (is.null(function_or_arg_list)) function_or_arg_list <- sys.function(-1L)
     if (is.null(function_or_arg_list)) stop("get_dots -- supposed to be called inside function (nframe >= 1)")
     if (is.function(function_or_arg_list)) {
-        default_args <- formals(function_or_arg_list)
+        default_args <- as.list(formals(function_or_arg_list))
     } else if(is.list(function_or_arg_list)) {
         default_args <- function_or_arg_list
     }
@@ -56,7 +56,7 @@ get_dots <- function(function_or_arg_list = NULL
         ## check if we are searching only in 'friendly' functions:
         ## meaning that at least search_while_calls_have_args should exist in calls
         parent_fun <- sys.function(fr)
-        parent_default_args <- formals(parent_fun)
+        parent_default_args <- as.list(formals(parent_fun))
         if (fr != sp && !all(search_while_calls_have_args %in% names(parent_default_args))) break()
         ## check if call belongs to an env (package) or has a regex name
         if (fr != sp &&
