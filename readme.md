@@ -1,6 +1,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/dots)
 [![R-CMD-check](https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
 [![test-coverage](https://github.com/stasvlasov/get_dots/workflows/test-coverage/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
+[![CI](https://github.com/stasvlasov/get_dots/workflows/test-coverage/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
 
 An alternative way to access dots arguments without explicitly passing
 it through calling stack that allows updating default dots arguments
