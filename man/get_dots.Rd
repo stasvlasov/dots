@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_dots.r
 \name{get_dots}
 \alias{get_dots}
-\title{An alternative way to interact with ~...~ dots arguments (aka ellipses).}
+\title{An alternative way to interact with \code{...} dots arguments (aka ellipses).}
 \usage{
 get_dots(
   function_or_arg_list = NULL,
@@ -33,5 +33,5 @@ get_dots(
 List of updated dots arguments
 }
 \description{
-Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
+Provides access to \code{...} dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
