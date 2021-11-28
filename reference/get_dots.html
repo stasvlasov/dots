@@ -192,7 +192,7 @@
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Nested calls example</span></span>
 <span class='r-in'><span class='va'>util</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>foo</span> <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>bar</span> <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>    <span class='va'>dots</span> <span class='op'>&lt;-</span> <span class='fu'>dots</span><span class='fu'>::</span><span class='fu'>get_dots</span><span class='op'>(</span>search_up_nframes <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>dots</span> <span class='op'>&lt;-</span> <span class='fu'>dots</span><span class='fu'>:::</span><span class='fu'>get_dots</span><span class='op'>(</span>search_up_nframes <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span></span>
 <span class='r-in'>    <span class='co'># bind updated arguments to local environment</span></span>
 <span class='r-in'>    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>v</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>dots</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/assign.html'>assign</a></span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>dots</span><span class='op'>[[</span><span class='va'>v</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
@@ -217,7 +217,9 @@
 <span class='r-in'><span class='op'>}</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>main</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error:</span> 'get_dots' is not an exported object from 'namespace:dots'</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> foo: 0, bar: 0</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> foo: 1, bar: 0</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> foo: 1, bar: 2</span>
 <span class='r-in'><span class='co'>#&gt; foo: 0, bar: 0</span></span>
 <span class='r-in'><span class='co'>#&gt; foo: 1, bar: 0</span></span>
 <span class='r-in'><span class='co'>#&gt; foo: 0, bar: 2</span></span>

@@ -100,8 +100,8 @@ main(foo = 2)
 <h1 class="hasAnchor">
 <a href="#formal-argument-foo-matched-by-multiple-actual-arguments" class="anchor"></a>formal argument “foo” matched by multiple actual arguments</h1>
 <pre><code>
-The `dots` package provides a function `get_dots` that allows you to
-access dots arguments without conflicts and update arguments that are
+The `dots` package provides a function `get_dots` [^1] that allows you
+to access dots arguments without conflicts and update arguments that are
 set explicitly in the function calls. You can simply put `get_dots`
 inside your `util` function, bind it\'s results into local environment
 and proceed with out explicitly passing dots parameter:
@@ -139,7 +139,7 @@ main(foo = 2, bar = 2)
 <li>
 <code>get_dots</code> can also collect and update <code>...</code> arguments up through stack of nested of calls:</li>
 </ul>
-<p>``` {#example-nesting .r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
+<p>``` {#example-nesting .r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots:::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
 <p>main &lt;- function (…) { util() sub_main(foo = 1) }</p>
 <p>sub_main &lt;- function (…) { util() sub_sub_main(bar = 2) }</p>
 <p>sub_sub_main &lt;- function (…) { util() }</p>
