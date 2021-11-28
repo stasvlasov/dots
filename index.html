@@ -64,10 +64,116 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Provides access to `...` dots arguments without explicitly
-    passing it through calling stack and allows updating default values
-    that are explicitly set throughout calling stack (lower calls take
-    prevalence).
+
+
+<p><code>{#package-title .markdown} An alternative way to interact with `...` dots arguments (aka ellipses).</code></p>
+<p><code>{#package-description .markdown} Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).</code></p>
+<div id="the-problem-this-package-solves" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#the-problem-this-package-solves" class="anchor"></a>The 'problem' this package solves</h1></div>
+<p>Suppose you wrote a nice utility funciton (<code>util</code>) for your package:</p>
+<p>``` {.r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { message(“foo:”, foo, “, bar:”, bar) }</p>
+util()
+<p>#&gt; foo: 0, bar: 0</p>
+<pre><code>
+You are going to use this `util` function a lot internaly and you want
+to pass some optional arguments passed from the upper function calls.
+Usually you will use special `...` argument to do that:
+
+``` {.r org-language="R"}
+main &lt;- function (...) {
+    util(...)
+}
+
+main(foo = 0, bar = 1)
+#&gt; foo: 0, bar: 1</code></pre>
+<p>But, here is the problem if at some point you need to set one of the arguments in your <code>util</code> function directlly this can introduce errors (known as "matched by multiple actual arguments"):</p>
+<p>``` {.r org-language=“R”} main &lt;- function (…) { util(foo = 1, …) }</p>
+main()
+<p>#&gt; foo: 1, bar: 0</p>
+main(bar = 2)
+<p>#&gt; foo: 1, bar: 2</p>
+main(foo = 2)
+<p>#&gt; Error in util(foo = 0, …) :</p>
+</div>
+<div id="formal-argument-foo-matched-by-multiple-actual-arguments" class="section level1">
+<h1 class="hasAnchor">
+<a href="#formal-argument-foo-matched-by-multiple-actual-arguments" class="anchor"></a>formal argument “foo” matched by multiple actual arguments</h1>
+<pre><code>
+The `dots` package provides a function `get_dots` that allows you to
+access dots arguments without conflicts and update arguments that are
+set explicitly in the function calls. You can simply put `get_dots`
+inside your `util` function, bind it\'s results into local environment
+and proceed with out explicitly passing dots parameter:
+
+``` {.r org-language="R"}
+library("dots")
+
+util &lt;- function(foo = 0, bar = 0) {
+    # binds updated arguments into environment
+    dots &lt;- dots::get_dots()
+    for (v in names(dots)) {
+        assign(v, dots[[v]])
+    }
+    rm(dots, v)
+    # report argumetns
+    message("foo: ", foo, ", bar: ", bar)
+}
+
+util()
+#&gt; foo: 0, bar: 0
+
+main &lt;- function (...) {
+    util()
+    util(foo = 1) 
+    util(bar = 1)
+}
+
+main(foo = 2, bar = 2)
+#&gt; foo: 2, bar: 2
+#&gt; foo: 1, bar: 2  # THIS WORKS NOW!
+#&gt; foo: 2, bar: 1  # THIS WORKS NOW!</code></pre>
+</div>
+<div id="features-of-get_dots-function" class="section level1">
+<h1 class="hasAnchor">
+<a href="#features-of-get_dots-function" class="anchor"></a>Features of <code>get_dots</code> function</h1>
+<ul>
+<li>
+<code>get_dots</code> can also collect and update <code>...</code> arguments up through stack of nested of calls:</li>
+</ul>
+<p>``` {.r org-language=“R”} util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
+<p>main &lt;- function (…) { util() sub_main(foo = 1) }</p>
+<p>sub_main &lt;- function (…) { util() sub_sub_main(bar = 2) }</p>
+<p>sub_sub_main &lt;- function (…) { util() }</p>
+main()
+#&gt; foo: 0, bar: 0
+#&gt; foo: 1, bar: 0
+<p>#&gt; foo: 0, bar: 2</p>
+<pre><code>
+-   Limit looking up for dots arguments updates by specifying (see
+    `get_dot` parameters documentation):
+    -   number of frames (see last example)
+    -   function name up to which to look up in calling stack
+    -   look up calling stack while calls belong to specific
+        environment/package
+    -   look up calling stack while calls name matches specific regular
+        expression
+-   More to come...
+
+# Installation
+
+You can get it from github with:
+
+``` {.r org-language="R"}
+devtools::install_github("stasvlasov/dots")</code></pre>
+<p>The <code>dots</code> package is pretty small and has no dependencies. However, if you have wonderful <code>checkmate</code> package installed (you can get it with <code>install.packages("checkmate")</code>) it will be used for checking <code>get_dots</code> arguments.</p>
+</div>
+<div id="what-next" class="section level1">
+<h1 class="hasAnchor">
+<a href="#what-next" class="anchor"></a>What next?</h1>
+<p>It is work in progress/prove of concept. Please, submit issues, questions:)</p>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -85,7 +191,14 @@ Provides access to `...` dots arguments without explicitly
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/stasvlasov/get_dots/actions"><img src="https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/stasvlasov/dots"><img src="https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5" alt="codecov"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
