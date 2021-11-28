@@ -1,11 +1,15 @@
 #' @details
-#' An alternative way to access dots arguments without explicitly passing it through calling stack that allows updating default dots arguments that are explicitly set throughout calling stack.
+#' An alternative way to interact with ~...~ dots arguments (aka ellipses).
+#' 
+#' Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 #' @keywords internal
 "_PACKAGE"
 
-##' An alternative way to access dots arguments without explicitly passing it through calling stack that allows updating default dots arguments that are explicitly set throughout calling stack.
+##' An alternative way to interact with ~...~ dots arguments (aka ellipses).
+##' 
+##' Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 ##'
-##' @param function_or_arg_list The end function that meant to accept dots arguments (default arguments accessed with `formals(function_or_arg_list)`) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. 
+##' @param function_or_arg_list The end function that meant to accept dots arguments (default arguments accessed with `formals(function_or_arg_list)`) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with `sys.function(-1L)`).
 ##' @param select_args Which arguments to select from `function_or_arg_list`. Ether character or numeric vector.
 ##' @param search_while_calls_have_args Arguments that should be present in each upper call to continue looking up the call stack for updates in dots arguments.
 ##' @param search_while_calls_belong_to_env Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.
@@ -15,7 +19,6 @@
 ##' @return List of updated dots arguments
 ##' 
 ##' @md 
-##' @export 
 get_dots <- function(function_or_arg_list = NULL
                    , select_args = NULL
                    , search_while_calls_have_args = "..."

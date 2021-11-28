@@ -1,15 +1,20 @@
 Package: dots
-Title: Gets ... in R function calls
+Title: An alternative way to interact with `...` dots arguments (aka
+    ellipses).
 Version: 0.0.0.9000
-Date: 2021-11-27
+Date: 2021-11-28
 Authors@R: 
     person("Stanislav", "Vlasov", , "s.vlasov@uvt.nl", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: MIT + file LICENSE
+Description: Provides access to `...` dots arguments without explicitly
+    passing it through calling stack and allows updating default values
+    that are explicitly set throughout calling stack (lower calls take
+    prevalence).
+License: Apache License (>= 2)
 Depends: 
     R (>= 3.4)
 Suggests: 
-    checkmate, tinytest
+    checkmate,
+    tinytest
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

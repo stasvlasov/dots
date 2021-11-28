@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_dots.r
 \name{get_dots}
 \alias{get_dots}
-\title{An alternative way to access dots arguments without explicitly passing it through calling stack that allows updating default dots arguments that are explicitly set throughout calling stack.}
+\title{An alternative way to interact with ~...~ dots arguments (aka ellipses).}
 \usage{
 get_dots(
   function_or_arg_list = NULL,
@@ -15,7 +15,7 @@ get_dots(
 )
 }
 \arguments{
-\item{function_or_arg_list}{The end function that meant to accept dots arguments (default arguments accessed with \code{formals(function_or_arg_list)}) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls.}
+\item{function_or_arg_list}{The end function that meant to accept dots arguments (default arguments accessed with \code{formals(function_or_arg_list)}) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with \code{sys.function(-1L)}).}
 
 \item{select_args}{Which arguments to select from \code{function_or_arg_list}. Ether character or numeric vector.}
 
@@ -33,5 +33,5 @@ get_dots(
 List of updated dots arguments
 }
 \description{
-An alternative way to access dots arguments without explicitly passing it through calling stack that allows updating default dots arguments that are explicitly set throughout calling stack.
+Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }

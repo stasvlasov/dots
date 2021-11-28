@@ -9,7 +9,9 @@
 What the package does (one paragraph).
 }
 \details{
-An alternative way to access dots arguments without explicitly passing it through calling stack that allows updating default dots arguments that are explicitly set throughout calling stack.
+An alternative way to interact with ~...~ dots arguments (aka ellipses).
+
+Provides access to ~...~ dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
 \author{
 \strong{Maintainer}: Stanislav Vlasov \email{s.vlasov@uvt.nl}
