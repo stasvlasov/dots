@@ -4,12 +4,12 @@
 \name{dots-package}
 \alias{dots}
 \alias{dots-package}
-\title{dots: An alternative way to interact with `...` dots arguments (aka ellipses).}
+\title{dots: An alternative way to interact with `...` arguments}
 \description{
 Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
 \details{
-An alternative way to interact with \code{...} dots arguments (aka ellipses).
+An alternative way to interact with \code{...} arguments
 Provides access to \code{...} dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
 \author{

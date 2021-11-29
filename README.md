@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5)](https://codecov.io/gh/stasvlasov/dots)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/dots)
 
-An alternative way to interact with `...` dots arguments (aka ellipses).
+An alternative way to interact with `...` arguments
 
 Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 
