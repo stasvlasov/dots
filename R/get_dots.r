@@ -4,12 +4,12 @@
 ##'
 ##' @param function_or_arg_list The end function that meant to accept dots arguments (default arguments accessed with `formals(function_or_arg_list)`) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with `sys.function(-1L)`).
 ##' @param select_args Which arguments to select from `function_or_arg_list`. Ether character or numeric vector.
-##' @param search_while_calls_have_args Arguments that should be present in each upper call to continue looking up the call stack for updates in dots arguments.
+##' @param search_while_calls_have_formals Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.
 ##' @param search_while_calls_belong_to_env Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.
 ##' @param search_while_calls_regexp Regular expression that each function name in upper calls to should matched to continue looking up the call stack for updates in dots arguments.
 ##' @param search_up_nframes Number of frames (aka environments) in calling stack to look up for updates in dots arguments.
 ##' @param search_up_to_call The name of the call before which to continue looking up the call stack for updates in dots arguments.
-##'
+##' @param skip_checks_for_parent_call Whether to skip checking `search_while_calls_have_formals` `search_while_calls_belong_to_env` `search_while_calls_regexp`
 ##' @examples
 ##' # Basic example
 ##' util <- function(foo = 0, bar = 0) {
@@ -73,18 +73,19 @@
 ##' @md 
 get_dots <- function(function_or_arg_list = NULL
                    , select_args = NULL
-                   , search_while_calls_have_args = "..."
+                   , search_while_calls_have_formals = "..."
                    , search_while_calls_belong_to_env = NULL
                    , search_while_calls_regexp = NULL
                    , search_up_nframes = 1L
-                   , search_up_to_call = NULL) {
+                   , search_up_to_call = NULL
+                   , skip_checks_for_parent_call = TRUE) {
 
     ## check arguments with checkmate (optionally)
     if (requireNamespace("checkmate", quietly = TRUE)) {
         checkmate::assert(checkmate::check_function(function_or_arg_list, null.ok = TRUE)
                         , checkmate::check_list(function_or_arg_list))
         checkmate::assert_character(select_args, null.ok = TRUE)
-        checkmate::assert_character(search_while_calls_have_args, null.ok = TRUE)
+        checkmate::assert_character(search_while_calls_have_formals, null.ok = TRUE)
         checkmate::assert_character(search_while_calls_belong_to_env, null.ok = TRUE)
         checkmate::assert_character(search_while_calls_regexp, null.ok = TRUE)
         checkmate::assert_integer(search_up_nframes)
@@ -98,6 +99,8 @@ get_dots <- function(function_or_arg_list = NULL
     } else if(is.list(function_or_arg_list)) {
         default_args <- function_or_arg_list
     }
+    ## filter ... argument out (just in case)
+    default_args <- default_args[!(default_args %in% "...")]
     if (length(select_args) > 0) {
         default_args <- default_args[select_args]
         if (length(default_args) == 0) stop("get_dots -- 'select_args' are not in 'formals(function_or_arg_list)'")
@@ -109,17 +112,18 @@ get_dots <- function(function_or_arg_list = NULL
         ## stop searching frames stack deaper than search_up_nframes
         if (fr < 1 || (sp - fr) > search_up_nframes) break()
         ## check if we are searching only in 'friendly' functions:
-        ## meaning that at least search_while_calls_have_args should exist in calls
+        ## meaning that at least search_while_calls_have_formals should exist in calls
         parent_fun <- sys.function(fr)
         parent_default_args <- as.list(formals(parent_fun))
-        if (fr != sp && !all(search_while_calls_have_args %in% names(parent_default_args))) break()
-        ## check if call belongs to an env (package) or has a regex name
-        if (fr != sp &&
+        if (!(skip_checks_for_parent_call && fr == sp) &&
+            !all(search_while_calls_have_formals %in% names(parent_default_args))) break()
+        ## check if call belongs to an env (package)
+        if (!(skip_checks_for_parent_call && fr == sp) &&
             !is.null(search_while_calls_belong_to_env) &&
             !(environmentName(environment(parent_fun)) %in% search_while_calls_belong_to_env)) break()
         ## check if call matches regexp
         parent_call <- as.list(sys.call(fr))        
-        if (fr != sp &&
+        if (!(skip_checks_for_parent_call && fr == sp) &&
             !is.null(search_while_calls_regexp) &&
             !grepl(search_while_calls_regexp, as.character(parent_call[[1]]), perl = TRUE)) break()
         ## update defautls if called explicitly

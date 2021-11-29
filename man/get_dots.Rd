@@ -7,11 +7,12 @@
 get_dots(
   function_or_arg_list = NULL,
   select_args = NULL,
-  search_while_calls_have_args = "...",
+  search_while_calls_have_formals = "...",
   search_while_calls_belong_to_env = NULL,
   search_while_calls_regexp = NULL,
   search_up_nframes = 1L,
-  search_up_to_call = NULL
+  search_up_to_call = NULL,
+  skip_checks_for_parent_call = TRUE
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ get_dots(
 
 \item{select_args}{Which arguments to select from \code{function_or_arg_list}. Ether character or numeric vector.}
 
-\item{search_while_calls_have_args}{Arguments that should be present in each upper call to continue looking up the call stack for updates in dots arguments.}
+\item{search_while_calls_have_formals}{Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.}
 
 \item{search_while_calls_belong_to_env}{Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.}
 
@@ -28,6 +29,8 @@ get_dots(
 \item{search_up_nframes}{Number of frames (aka environments) in calling stack to look up for updates in dots arguments.}
 
 \item{search_up_to_call}{The name of the call before which to continue looking up the call stack for updates in dots arguments.}
+
+\item{skip_checks_for_parent_call}{Whether to skip checking \code{search_while_calls_have_formals} \code{search_while_calls_belong_to_env} \code{search_while_calls_regexp}}
 }
 \value{
 List of updated dots arguments
