@@ -12,6 +12,14 @@ Provides access to `...` dots arguments without explicitly passing it through ca
 An alternative way to interact with \code{...} arguments
 Provides access to \code{...} dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://stasvlasov.github.io/dots/}
+  \item Report bugs at \url{https://github.com/stasvlasov/dots/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Stanislav Vlasov \email{s.vlasov@uvt.nl}
 
