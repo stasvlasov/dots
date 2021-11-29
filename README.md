@@ -73,7 +73,7 @@ The `dots` package provides a function `get_dots` <sup><a id="fnr.1" class="foot
 
 # Features of `get_dots` function
 
--   `get_dots` can also collect and update `...` arguments up through stack of nested of calls:
+`get_dots` can collect and update `...` arguments up through stack of nested of calls:
 
     util <- function(foo = 0, bar = 0) {
         dots <- dots:::get_dots(search_up_nframes = 3L)
@@ -105,13 +105,12 @@ The `dots` package provides a function `get_dots` <sup><a id="fnr.1" class="foot
     #> foo: 1, bar: 0
     #> foo: 0, bar: 2
 
--   Limit looking up for dots arguments updates by specifying (see `get_dot` parameters documentation):
-    -   number of frames (see last example)
-    -   function name up to which to look up in calling stack
-    -   look up calling stack while calls belong to specific environment/package
-    -   look up calling stack while calls name matches specific regular expression
+Limit looking up for dots arguments updates by specifying (see `get_dot` parameters documentation):
 
--   More to come&#x2026;
+-   number of frames (see last example)
+-   function name up to which to look up in calling stack
+-   look up calling stack while calls belong to specific environment/package
+-   look up calling stack while calls name matches specific regular expression
 
 
 # Installation
