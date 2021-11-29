@@ -126,19 +126,36 @@
 <div id="features-of-get_dots-function" class="section level1">
 <h1 class="hasAnchor">
 <a href="#features-of-get_dots-function" class="anchor"></a>Features of <code>get_dots</code> function</h1>
-<ul>
-<li>
-<p><code>get_dots</code> can also collect and update <code>...</code> arguments up through stack of nested of calls:</p>
-<p>util &lt;- function(foo = 0, bar = 0) { dots &lt;- dots:::get_dots(search_up_nframes = 3L) # bind updated arguments to local environment for (v in names(dots)) { assign(v, dots[[v]]) } rm(dots, v) # report arguments message(“foo:”, foo, “, bar:”, bar) }</p>
-<p>main &lt;- function (…) { util() sub_main(foo = 1) }</p>
-<p>sub_main &lt;- function (…) { util() sub_sub_main(bar = 2) }</p>
-<p>sub_sub_main &lt;- function (…) { util() }</p>
-<p>main()</p>
-<p>#&gt; foo: 0, bar: 0</p>
-<p>#&gt; foo: 1, bar: 0</p>
-<p>#&gt; foo: 0, bar: 2</p>
-</li>
-<li>
+<p><code>get_dots</code> can collect and update <code>...</code> arguments up through stack of nested of calls:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    dots &lt;-<span class="st"> </span>dots<span class="op">:::</span><span class="kw">get_dots</span>(<span class="dt">search_up_nframes =</span> 3L)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    <span class="co"># bind updated arguments to local environment</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">for</span> (v <span class="cf">in</span> <span class="kw">names</span>(dots)) {</span>
+<span id="cb5-5"><a href="#cb5-5"></a>        <span class="kw">assign</span>(v, dots[[v]])</span>
+<span id="cb5-6"><a href="#cb5-6"></a>    }</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="kw">rm</span>(dots, v)</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="co"># report arguments</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="kw">message</span>(<span class="st">"foo: "</span>, foo, <span class="st">", bar: "</span>, bar)</span>
+<span id="cb5-10"><a href="#cb5-10"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a>main &lt;-<span class="st"> </span><span class="cf">function</span> (...) {</span>
+<span id="cb5-13"><a href="#cb5-13"></a>    <span class="kw">util</span>()</span>
+<span id="cb5-14"><a href="#cb5-14"></a>    <span class="kw">sub_main</span>(<span class="dt">foo =</span> <span class="dv">1</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>}</span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a>sub_main &lt;-<span class="st"> </span><span class="cf">function</span> (...) {</span>
+<span id="cb5-18"><a href="#cb5-18"></a>    <span class="kw">util</span>()</span>
+<span id="cb5-19"><a href="#cb5-19"></a>    <span class="kw">sub_sub_main</span>(<span class="dt">bar =</span> <span class="dv">2</span>)</span>
+<span id="cb5-20"><a href="#cb5-20"></a>}</span>
+<span id="cb5-21"><a href="#cb5-21"></a></span>
+<span id="cb5-22"><a href="#cb5-22"></a>sub_sub_main &lt;-<span class="st"> </span><span class="cf">function</span> (...) {</span>
+<span id="cb5-23"><a href="#cb5-23"></a>    <span class="kw">util</span>()</span>
+<span id="cb5-24"><a href="#cb5-24"></a>}</span>
+<span id="cb5-25"><a href="#cb5-25"></a></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="kw">main</span>()</span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="co">#&gt; foo: 0, bar: 0</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt; foo: 1, bar: 0</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; foo: 0, bar: 2</span></span></code></pre></div>
 <p>Limit looking up for dots arguments updates by specifying (see <code>get_dot</code> parameters documentation):</p>
 <ul>
 <li>number of frames (see last example)</li>
@@ -146,15 +163,12 @@
 <li>look up calling stack while calls belong to specific environment/package</li>
 <li>look up calling stack while calls name matches specific regular expression</li>
 </ul>
-</li>
-<li><p>More to come…</p></li>
-</ul>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>You can get it from github with:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"stasvlasov/dots"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"stasvlasov/dots"</span>)</span></code></pre></div>
 <p>The <code>dots</code> package is pretty small and has no dependencies. However, if you have wonderful <code>checkmate</code> package installed (you can get it with <code>install.packages("checkmate")</code>) it will be used for checking <code>get_dots</code> arguments.</p>
 </div>
 <div id="what-next" class="section level1">
