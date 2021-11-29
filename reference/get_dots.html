@@ -115,11 +115,12 @@
     <pre class="usage"><span class='fu'>get_dots</span><span class='op'>(</span>
   function_or_arg_list <span class='op'>=</span> <span class='cn'>NULL</span>,
   select_args <span class='op'>=</span> <span class='cn'>NULL</span>,
-  search_while_calls_have_args <span class='op'>=</span> <span class='st'>"..."</span>,
+  search_while_calls_have_formals <span class='op'>=</span> <span class='st'>"..."</span>,
   search_while_calls_belong_to_env <span class='op'>=</span> <span class='cn'>NULL</span>,
   search_while_calls_regexp <span class='op'>=</span> <span class='cn'>NULL</span>,
   search_up_nframes <span class='op'>=</span> <span class='fl'>1L</span>,
-  search_up_to_call <span class='op'>=</span> <span class='cn'>NULL</span>
+  search_up_to_call <span class='op'>=</span> <span class='cn'>NULL</span>,
+  skip_checks_for_parent_call <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -134,8 +135,8 @@
       <td><p>Which arguments to select from <code>function_or_arg_list</code>. Ether character or numeric vector.</p></td>
     </tr>
     <tr>
-      <th>search_while_calls_have_args</th>
-      <td><p>Arguments that should be present in each upper call to continue looking up the call stack for updates in dots arguments.</p></td>
+      <th>search_while_calls_have_formals</th>
+      <td><p>Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.</p></td>
     </tr>
     <tr>
       <th>search_while_calls_belong_to_env</th>
@@ -152,6 +153,10 @@
     <tr>
       <th>search_up_to_call</th>
       <td><p>The name of the call before which to continue looking up the call stack for updates in dots arguments.</p></td>
+    </tr>
+    <tr>
+      <th>skip_checks_for_parent_call</th>
+      <td><p>Whether to skip checking <code>search_while_calls_have_formals</code> <code>search_while_calls_belong_to_env</code> <code>search_while_calls_regexp</code></p></td>
     </tr>
     </table>
 
