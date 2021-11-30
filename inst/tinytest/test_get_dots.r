@@ -2,9 +2,11 @@
 ## check basics
 ## -----------------------------------------------------------------------------
 
+get_dots <- dots:::get_dots
+
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots()
+    dots <- get_dots()
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -13,16 +15,16 @@ util <- function(foo = 0, bar = 0) {
     list(foo, bar)
 }
 
-expect_equal(dots:::get_dots(expect_equal)
+expect_equal(get_dots(expect_equal)
            , as.list(formals("expect_equal")))
 
-expect_equal(dots:::get_dots(util)
+expect_equal(get_dots(util)
            , as.list(formals("util")))
 
-expect_equal(dots:::get_dots(util, select_args = "foo")
+expect_equal(get_dots(util, select_args = "foo")
            , as.list(formals("util")["foo"]))
 
-expect_equal(dots:::get_dots(util, select_args = c("bar" ,"foo"))
+expect_equal(get_dots(util, select_args = c("bar" ,"foo"))
            , as.list(formals("util")[c("bar" ,"foo")]))
 
 main <- function (...) {
@@ -40,7 +42,7 @@ expect_equal(main(foo = 1, bar = 0), list(0, 0))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 2L)
+    dots <- get_dots(search_up_nframes = 2L)
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -69,7 +71,7 @@ expect_equal(main(foo = 3, bar = 3), list(1, 2))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 1L)
+    dots <- get_dots(search_up_nframes = 1L)
     for (v in names(dots)) {
         assign(v, dots[[v]])
     }
@@ -98,7 +100,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 2))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_to_call = "sub_sub_main"
+    dots <- get_dots(search_up_to_call = "sub_sub_main"
                    , search_up_nframes = 3L)
     for (v in names(dots)) {
         assign(v, dots[[v]])
@@ -129,7 +131,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 2))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 3L
+    dots <- get_dots(search_up_nframes = 3L
                      , search_while_calls_have_formals = c("...", "arg_should_be_present"))
     for (v in names(dots)) {
         assign(v, dots[[v]])
@@ -159,7 +161,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 2))
 
 util <- function(foo = 0, bar = 0, arg_should_be_present = NULL, ...) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 3L
+    dots <- get_dots(search_up_nframes = 3L
                    , search_while_calls_have_formals = c("...", "arg_should_be_present")
                    , skip_checks_for_parent_call = FALSE)
     for (v in names(dots)) {
@@ -187,7 +189,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 2))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 3L
+    dots <- get_dots(search_up_nframes = 3L
                    , search_while_calls_have_formals = c("...", "arg_should_be_present")
                    , skip_checks_for_parent_call = FALSE)
     for (v in names(dots)) {
@@ -205,7 +207,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 0))
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 3L
+    dots <- get_dots(search_up_nframes = 3L
                    , search_while_calls_belong_to_env = "testing_environment_for_det_dots_function")
     for (v in names(dots)) {
         assign(v, dots[[v]])
@@ -241,7 +243,7 @@ expect_equal(main(foo = 3, bar = 3), list(0, 2))
 ## test fun call belongs to env (package)
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
-    dots <- dots:::get_dots(search_up_nframes = 3L
+    dots <- get_dots(search_up_nframes = 3L
                    , search_while_calls_regexp = "^sub_sub_.*")
     for (v in names(dots)) {
         assign(v, dots[[v]])
