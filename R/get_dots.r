@@ -12,7 +12,7 @@
 ##' @param skip_checks_for_parent_call Whether to skip checking `search_while_calls_have_formals` `search_while_calls_belong_to_env` `search_while_calls_regexp`
 ##' @examples
 ##' # Make get_dots available for following examples
-##' get_dots <- dots:::get_dots()
+##' get_dots <- dots:::get_dots
 ##' # Basic usage
 ##' util <- function(foo = 0, bar = 0) {
 ##'     # get dots and bind updated arguments into environment
