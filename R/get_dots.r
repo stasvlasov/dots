@@ -11,11 +11,12 @@
 ##' @param search_up_to_call The name of the call before which to continue looking up the call stack for updates in dots arguments.
 ##' @param skip_checks_for_parent_call Whether to skip checking `search_while_calls_have_formals` `search_while_calls_belong_to_env` `search_while_calls_regexp`
 ##' @examples
-##' \dontrun{
+##' # Make get_dots available for following examples
+##' dots <- dots:::get_dots()
 ##' # Basic usage
 ##' util <- function(foo = 0, bar = 0) {
 ##'     # get dots and bind updated arguments into environment
-##'     dots <- dots:::get_dots()
+##'     dots <- get_dots()
 ##'     for (v in names(dots)) assign(v, dots[[v]])
 ##'     # util just reports it arguments
 ##'     message("foo: ", foo, ", bar: ", bar)
@@ -38,7 +39,7 @@
 ##' # Usage in nested calls
 ##' util <- function(foo = 0, bar = 0) {
 ##'     # get dots and bind updated arguments into environment
-##'     dots <- dots:::get_dots(search_up_nframes = 3L)
+##'     dots <- get_dots(search_up_nframes = 3L)
 ##'     for (v in names(dots)) assign(v, dots[[v]])
 ##'     # util just reports it arguments
 ##'     message("foo: ", foo, ", bar: ", bar)
@@ -62,7 +63,6 @@
 ##' #> foo: 0, bar: 0
 ##' #> foo: 1, bar: 0
 ##' #> foo: 0, bar: 2
-##' }
 ##' 
 ##' @return List of updated dots arguments
 ##' 

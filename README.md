@@ -45,11 +45,11 @@ But, here is the problem if at some point you need to set one of the arguments i
 
 The `dots` package provides a function `get_dots` that allows you to access dots arguments without conflicts and update arguments that are set explicitly in the function calls. You can simply put `get_dots` inside your `util` function, bind it's results into local environment and proceed with out explicitly passing dots parameter.
 
-Note that the `get_dots` function should be called with `:::` as `dots:::get_dots` because is not added to `NAMESPACE` since the intended use is internal only.
+Note that the `get_dots` function should be called with `:::` as `dots:::get_dots` because is not added to `NAMESPACE` since the intended use is internal only. For the following examples we assume that `get_dots` is available (i.e., run `get_dots <- dots:::get_dots` before running examples).
 
     util <- function(foo = 0, bar = 0) {
         # get dots and bind updated arguments into environment
-        dots <- dots:::get_dots()
+        dots <- get_dots()
         for (v in names(dots)) assign(v, dots[[v]])
         # util just reports it arguments
         message("foo: ", foo, ", bar: ", bar)
@@ -76,7 +76,7 @@ Note that the `get_dots` function should be called with `:::` as `dots:::get_dot
 
     util <- function(foo = 0, bar = 0) {
         # get dots and bind updated arguments into environment
-        dots <- dots:::get_dots(search_up_nframes = 3L)
+        dots <- get_dots(search_up_nframes = 3L)
         for (v in names(dots)) assign(v, dots[[v]])
         # util just reports it arguments
         message("foo: ", foo, ", bar: ", bar)

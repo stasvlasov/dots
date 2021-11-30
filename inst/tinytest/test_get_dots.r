@@ -2,7 +2,7 @@
 ## check basics
 ## -----------------------------------------------------------------------------
 
-get_dots <- dots:::get_dots
+dots <- dots:::get_dots()
 
 util <- function(foo = 0, bar = 0) {
     # binds updated arguments into environment
