@@ -43,16 +43,15 @@ But, here is the problem if at some point you need to set one of the arguments i
     #> Error in util(foo = 0, ...) :
     #  formal argument "foo" matched by multiple actual arguments
 
-The `dots` package provides a function `get_dots` <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> that allows you to access dots arguments without conflicts and update arguments that are set explicitly in the function calls. You can simply put `get_dots` inside your `util` function, bind it's results into local environment and proceed with out explicitly passing dots parameter:
+The `dots` package provides a function `get_dots` that allows you to access dots arguments without conflicts and update arguments that are set explicitly in the function calls. You can simply put `get_dots` inside your `util` function, bind it's results into local environment and proceed with out explicitly passing dots parameter.
+
+Note that the `get_dots` function should be called with `:::` as `dots:::get_dots` because is not added to `NAMESPACE` since the intended use is internal only.
 
     util <- function(foo = 0, bar = 0) {
-        # binds updated arguments into environment
+        # get dots and bind updated arguments into environment
         dots <- dots:::get_dots()
-        for (v in names(dots)) {
-            assign(v, dots[[v]])
-        }
-        rm(dots, v)
-        # report argumetns
+        for (v in names(dots)) assign(v, dots[[v]])
+        # util just reports it arguments
         message("foo: ", foo, ", bar: ", bar)
     }
     
@@ -73,16 +72,13 @@ The `dots` package provides a function `get_dots` <sup><a id="fnr.1" class="foot
 
 # Features of `get_dots` function
 
-`get_dots` can collect and update `...` arguments up through stack of nested of calls:
+`get_dots` can collect and update `...` arguments up through stack of nested of calls. This is controlled with `search_up_nframes` parameter
 
     util <- function(foo = 0, bar = 0) {
+        # get dots and bind updated arguments into environment
         dots <- dots:::get_dots(search_up_nframes = 3L)
-        # bind updated arguments to local environment
-        for (v in names(dots)) {
-            assign(v, dots[[v]])
-        }
-        rm(dots, v)
-        # report arguments
+        for (v in names(dots)) assign(v, dots[[v]])
+        # util just reports it arguments
         message("foo: ", foo, ", bar: ", bar)
     }
     
@@ -126,7 +122,3 @@ The `dots` package is pretty small and has no dependencies. However, if you have
 
 It is work in progress/prove of concept. Please, submit issues, questions:)
 
-
-# Footnotes
-
-<sup><a id="fn.1" href="#fnr.1">1</a></sup> Note that the `get_dots` function is called with `:::` as `dots:::get_dots`. This is because the intendent use is internal only it is not added to `NAMESPACE`.

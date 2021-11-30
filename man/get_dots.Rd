@@ -39,15 +39,13 @@ List of updated dots arguments
 Provides access to \code{...} dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
 }
 \examples{
-# Basic example
+\dontrun{
+# Basic usage
 util <- function(foo = 0, bar = 0) {
-    # binds updated arguments into environment
+    # get dots and bind updated arguments into environment
     dots <- dots:::get_dots()
-    for (v in names(dots)) {
-        assign(v, dots[[v]])
-    }
-    rm(dots, v)
-    # report argumetns
+    for (v in names(dots)) assign(v, dots[[v]])
+    # util just reports it arguments
     message("foo: ", foo, ", bar: ", bar)
 }
 
@@ -65,15 +63,12 @@ main(foo = 2, bar = 2)
 #> foo: 1, bar: 2  # THIS WORKS NOW!
 #> foo: 2, bar: 1  # THIS WORKS NOW!
 
-# Nested calls example
+# Usage in nested calls
 util <- function(foo = 0, bar = 0) {
+    # get dots and bind updated arguments into environment
     dots <- dots:::get_dots(search_up_nframes = 3L)
-    # bind updated arguments to local environment
-    for (v in names(dots)) {
-        assign(v, dots[[v]])
-    }
-    rm(dots, v)
-    # report arguments
+    for (v in names(dots)) assign(v, dots[[v]])
+    # util just reports it arguments
     message("foo: ", foo, ", bar: ", bar)
 }
 
@@ -94,6 +89,6 @@ sub_sub_main <- function (...) {
 main()
 #> foo: 0, bar: 0
 #> foo: 1, bar: 0
-#> foo: 0, bar: 2
+#> foo: 0, bar: 2}
 
 }
