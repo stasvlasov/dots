@@ -105,10 +105,10 @@
 <span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; Error in util(foo = 0, ...) :</span></span>
 <span id="cb3-13"><a href="#cb3-13"></a><span class="co">#  formal argument "foo" matched by multiple actual arguments</span></span></code></pre></div>
 <p>The <code>dots</code> package provides a function <code>get_dots</code> that allows you to access dots arguments without conflicts and update arguments that are set explicitly in the function calls. You can simply put <code>get_dots</code> inside your <code>util</code> function, bind it’s results into local environment and proceed with out explicitly passing dots parameter.</p>
-<p>Note that the <code>get_dots</code> function should be called with <code>:::</code> as <code>dots:::get_dots</code> because is not added to <code>NAMESPACE</code> since the intended use is internal only.</p>
+<p>Note that the <code>get_dots</code> function should be called with <code>:::</code> as <code>dots:::get_dots</code> because is not added to <code>NAMESPACE</code> since the intended use is internal only. For the following examples we assume that <code>get_dots</code> is available (i.e., run <code>get_dots &lt;- dots:::get_dots</code> before running examples).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="co"># get dots and bind updated arguments into environment</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    dots &lt;-<span class="st"> </span>dots<span class="op">:::</span><span class="kw">get_dots</span>()</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    dots &lt;-<span class="st"> </span><span class="kw">get_dots</span>()</span>
 <span id="cb4-4"><a href="#cb4-4"></a>    <span class="cf">for</span> (v <span class="cf">in</span> <span class="kw">names</span>(dots)) <span class="kw">assign</span>(v, dots[[v]])</span>
 <span id="cb4-5"><a href="#cb4-5"></a>    <span class="co"># util just reports it arguments</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a>    <span class="kw">message</span>(<span class="st">"foo: "</span>, foo, <span class="st">", bar: "</span>, bar)</span>
@@ -134,7 +134,7 @@
 <p><code>get_dots</code> can collect and update <code>...</code> arguments up through stack of nested of calls. This is controlled with <code>search_up_nframes</code> parameter</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># get dots and bind updated arguments into environment</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    dots &lt;-<span class="st"> </span>dots<span class="op">:::</span><span class="kw">get_dots</span>(<span class="dt">search_up_nframes =</span> 3L)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    dots &lt;-<span class="st"> </span><span class="kw">get_dots</span>(<span class="dt">search_up_nframes =</span> 3L)</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">for</span> (v <span class="cf">in</span> <span class="kw">names</span>(dots)) <span class="kw">assign</span>(v, dots[[v]])</span>
 <span id="cb5-5"><a href="#cb5-5"></a>    <span class="co"># util just reports it arguments</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a>    <span class="kw">message</span>(<span class="st">"foo: "</span>, foo, <span class="st">", bar: "</span>, bar)</span>
