@@ -61,7 +61,8 @@
 ##' main()
 ##' #> foo: 0, bar: 0
 ##' #> foo: 1, bar: 0
-##' #> foo: 0, bar: 2}
+##' #> foo: 0, bar: 2
+##' }
 ##' 
 ##' @return List of updated dots arguments
 ##' 
