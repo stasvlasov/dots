@@ -266,3 +266,30 @@ sub_sub_main <- function (...) {
 }
 
 expect_equal(main(foo = 3, bar = 3), list(0, 2))
+
+
+## test argument evaluation
+util <- function(foo = 0, bar = 0) {
+    # binds updated arguments into environment
+    dots <- get_dots(search_up_nframes = 2L)
+    for (v in names(dots)) {
+        assign(v, dots[[v]])
+    }
+    rm(dots, v)
+    # report argumetns
+    list(foo, bar)
+}
+
+main <- function (main_foo = 1, ...) {
+    sub_main(foo = main_foo)
+}
+
+sub_main <- function (...) {
+    sub_sub_main(bar = 2)
+}
+
+sub_sub_main <- function (...) {
+    util()
+}
+
+expect_equal(main(foo = 3, bar = 3), list(1, 2))
