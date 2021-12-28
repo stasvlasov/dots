@@ -10,6 +10,7 @@
 ##' @param search_up_nframes Number of frames (aka environments) in calling stack to look up for updates in dots arguments.
 ##' @param search_up_to_call The name of the call before which to continue looking up the call stack for updates in dots arguments.
 ##' @param skip_checks_for_parent_call Whether to skip checking `search_while_calls_have_formals` `search_while_calls_belong_to_env` `search_while_calls_regexp`
+##' @param eval_default_args Whether to evaluate default arguments. Default is do not evaluate (FALSE) assuming that all argument are simple values (i.e., evaluates to itself)
 ##' @examples
 ##' # Make get_dots available for following examples
 ##' get_dots <- dots:::get_dots
@@ -74,7 +75,8 @@ get_dots <- function(function_or_arg_list = NULL
                    , search_while_calls_regexp = NULL
                    , search_up_nframes = 1L
                    , search_up_to_call = NULL
-                   , skip_checks_for_parent_call = TRUE) {
+                   , skip_checks_for_parent_call = TRUE
+                   , eval_default_args = FALSE) {
 
     ## check arguments with checkmate (optionally)
     if (requireNamespace("checkmate", quietly = TRUE)) {
@@ -86,6 +88,7 @@ get_dots <- function(function_or_arg_list = NULL
         checkmate::assert_character(search_while_calls_regexp, null.ok = TRUE)
         checkmate::assert_integer(search_up_nframes)
         checkmate::assert_character(search_up_to_call, null.ok = TRUE)
+        checkmate::assert_flag(eval_default_args)
     }
     ## set default_args
     if (is.null(function_or_arg_list)) {
@@ -95,10 +98,7 @@ get_dots <- function(function_or_arg_list = NULL
         stop("get_dots -- supposed to be called inside function (nframe >= 1)")
     }
     if (is.function(function_or_arg_list)) {
-        default_args <-
-            formals(function_or_arg_list) |>
-            as.list() |>
-            lapply(eval, environment(function_or_arg_list))
+        default_args <- formals(function_or_arg_list) |> as.list()
     } else if(is.list(function_or_arg_list)) {
         default_args <- function_or_arg_list
     }
@@ -107,6 +107,13 @@ get_dots <- function(function_or_arg_list = NULL
     if (length(select_args) > 0) {
         default_args <- default_args[select_args]
         if (length(default_args) == 0) stop("get_dots -- 'select_args' are not in 'formals(function_or_arg_list)'")
+    }
+    ## eval default args just in case
+    if(eval_default_args &&
+       length(default_args) != 0 &&
+       is.function(function_or_arg_list)) {
+        default_args <-
+            lapply(default_args, eval, environment(function_or_arg_list))
     }
     ## collect explicit args in parents
     explicit_args <- list()
@@ -117,9 +124,7 @@ get_dots <- function(function_or_arg_list = NULL
         ## check if we are searching only in 'friendly' functions:
         ## meaning that at least search_while_calls_have_formals should exist in calls
         parent_fun <- sys.function(fr)
-        parent_default_args <-
-            formals(parent_fun) |>
-            as.list()
+        parent_default_args <- formals(parent_fun) |> as.list()
         if (!(skip_checks_for_parent_call && fr == sp) &&
             !all(search_while_calls_have_formals %in% names(parent_default_args))) break()
         ## check if call belongs to an env (package)
@@ -127,17 +132,21 @@ get_dots <- function(function_or_arg_list = NULL
             !is.null(search_while_calls_belong_to_env) &&
             !(environmentName(environment(parent_fun)) %in% search_while_calls_belong_to_env)) break()
         ## check if call matches regexp
-        parent_call <-
-            sys.call(fr) |>
-            as.list()
+        parent_call <- sys.call(fr) |> as.list()
         if (!(skip_checks_for_parent_call && fr == sp) &&
             !is.null(search_while_calls_regexp) &&
             !grepl(search_while_calls_regexp, as.character(parent_call[[1]]), perl = TRUE)) break()
-        ## update defautls if called explicitly
-        default_args <- 
-            c(default_args[!(names(default_args) %in% names(parent_default_args))]
-            , parent_default_args[(names(parent_default_args) %in% names(default_args))] |>
-              lapply(eval.parent, fr))
+        ## update defautls other parent defaults
+        if(any(default_args_update <-
+                   names(parent_default_args) %in% names(default_args))) {
+            default_args_update <- parent_default_args[default_args_update]
+            if(eval_default_args) {
+                default_args_update <- lapply(default_args_update, eval, environment(parent_fun))
+            }
+            default_args <- 
+                c(default_args[!(names(default_args) %in% names(parent_default_args))]
+                ,  default_args_update)
+        }
         ## if explicit arg is in args list and not already added then add it
         parent_args <- parent_call[-1]
         if (length(parent_args) > 0) {
@@ -148,7 +157,7 @@ get_dots <- function(function_or_arg_list = NULL
                 explicit_args <-
                     c(explicit_args
                     , parent_args[args_to_add] |>
-                      lapply(eval.parent, fr))
+                      lapply(eval, sys.frame(fr - 1)))
             }
         }
         ## stop searching frames stack at search_up_to_call call
