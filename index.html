@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,25 +36,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/stasvlasov/dots/">
+  <a href="https://github.com/stasvlasov/dots/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -73,9 +69,9 @@
 
 <p>An alternative way to interact with <code>...</code> arguments</p>
 <p>Provides access to <code>...</code> dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).</p>
-<div id="the-problem-this-package-solves" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#the-problem-this-package-solves" class="anchor"></a>The ‘problem’ this package solves</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="the-problem-this-package-solves">The ‘problem’ this package solves<a class="anchor" aria-label="anchor" href="#the-problem-this-package-solves"></a>
+</h1></div>
 <p>Suppose you wrote a nice utility funciton (<code>util</code>) for your package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="kw">message</span>(<span class="st">"foo: "</span>, foo, <span class="st">", bar: "</span>, bar)</span>
@@ -128,9 +124,9 @@
 <span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; foo: 1, bar: 2  # THIS WORKS NOW!</span></span>
 <span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; foo: 2, bar: 1  # THIS WORKS NOW!</span></span></code></pre></div>
 </div>
-<div id="features-of-get_dots-function" class="section level1">
-<h1 class="hasAnchor">
-<a href="#features-of-get_dots-function" class="anchor"></a>Features of <code>get_dots</code> function</h1>
+<div class="section level1">
+<h1 id="features-of-get_dots-function">Features of <code>get_dots</code> function<a class="anchor" aria-label="anchor" href="#features-of-get_dots-function"></a>
+</h1>
 <p><code>get_dots</code> can collect and update <code>...</code> arguments up through stack of nested of calls. This is controlled with <code>search_up_nframes</code> parameter</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># get dots and bind updated arguments into environment</span></span>
@@ -166,16 +162,16 @@
 <li>look up calling stack while calls name matches specific regular expression</li>
 </ul>
 </div>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
 <p>You can get it from github with:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"stasvlasov/dots"</span>)</span></code></pre></div>
 <p>The <code>dots</code> package is pretty small and has no dependencies. However, if you have wonderful <code>checkmate</code> package installed (you can get it with <code>install.packages("checkmate")</code>) it will be used for checking <code>get_dots</code> arguments.</p>
 </div>
-<div id="what-next" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-next" class="anchor"></a>What next?</h1>
+<div class="section level1">
+<h1 id="what-next">What next?<a class="anchor" aria-label="anchor" href="#what-next"></a>
+</h1>
 <p>It is work in progress/prove of concept. Please, submit issues, questions:)</p>
 </div>
 
@@ -183,45 +179,56 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/stasvlasov/dots/">https://​github.com/​stasvlasov/​dots/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/stasvlasov/dots/issues">https://​github.com/​stasvlasov/​dots/​issues</a>
-</li>
+<li><a href="https://github.com/stasvlasov/dots/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/stasvlasov/dots/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>Apache License (&gt;= 2)</small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing dots</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Stanislav Vlasov <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/stasvlasov/get_dots/actions"><img src="https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/stasvlasov/dots"><img src="https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5" alt="codecov"></a></li>
+<li><a href="https://github.com/stasvlasov/get_dots/actions" class="external-link"><img src="https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/stasvlasov/dots" class="external-link"><img src="https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5" alt="codecov"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Stanislav Vlasov.</p>
+  <p></p>
+<p>Developed by Stanislav Vlasov.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -229,6 +236,8 @@
 
   
 
+
+  
 
   </body>
 </html>
