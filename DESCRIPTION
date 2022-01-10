@@ -1,7 +1,7 @@
 Package: dots
 Title: An alternative way to interact with `...` arguments
 Version: 0.0.0.9000
-Date: 2021-12-28
+Date: 2022-01-10
 Authors@R: 
     person("Stanislav", "Vlasov", , "s.vlasov@uvt.nl", role = c("aut", "cre"))
 Description: Provides access to `...` dots arguments without explicitly

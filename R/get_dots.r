@@ -11,6 +11,7 @@
 ##' @param search_up_to_call The name of the call before which to continue looking up the call stack for updates in dots arguments.
 ##' @param skip_checks_for_parent_call Whether to skip checking `search_while_calls_have_formals` `search_while_calls_belong_to_env` `search_while_calls_regexp`
 ##' @param eval_default_args Whether to evaluate default arguments. Default is do not evaluate (FALSE) assuming that all argument are simple values (i.e., evaluates to itself)
+##' @param return_unlisted_if_single_arg Toggle wether unlist when returning a single argument. Default is TRUE
 ##' @examples
 ##' # Make get_dots available for following examples
 ##' get_dots <- dots:::get_dots
@@ -76,7 +77,8 @@ get_dots <- function(function_or_arg_list = NULL
                    , search_up_nframes = 1L
                    , search_up_to_call = NULL
                    , skip_checks_for_parent_call = TRUE
-                   , eval_default_args = FALSE) {
+                   , eval_default_args = FALSE
+                   , return_unlisted_if_single_arg = TRUE) {
 
     ## check arguments with checkmate (optionally)
     if (requireNamespace("checkmate", quietly = TRUE)) {
@@ -89,6 +91,7 @@ get_dots <- function(function_or_arg_list = NULL
         checkmate::assert_integer(search_up_nframes)
         checkmate::assert_character(search_up_to_call, null.ok = TRUE)
         checkmate::assert_flag(eval_default_args)
+        checkmate::assert_flag(return_unlisted_if_single_arg)
     }
     ## set default_args
     if (is.null(function_or_arg_list)) {
@@ -169,6 +172,10 @@ get_dots <- function(function_or_arg_list = NULL
         arg_update <- 
             c(explicit_args
             , default_args[!(names(default_args) %in% names(explicit_args))])
+    }
+    ## just return argument if it is single argument
+    if(return_unlisted_if_single_arg && length(arg_update) == 1) {
+        arg_update <- arg_update[[1]]
     }
     return (arg_update)
 }
