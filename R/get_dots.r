@@ -157,10 +157,13 @@ get_dots <- function(function_or_arg_list = NULL
                 (names(parent_args) %in% names(default_args)) &
                 !(names(parent_args) %in% names(explicit_args))
             if (any(args_to_add)) {
-                explicit_args <-
-                    c(explicit_args
-                    , parent_args[args_to_add] |>
-                      lapply(eval, sys.frame(fr - 1)))
+                ## evaluate args in the frame that was created before 'fr'
+                ## the direct parent of 'fr' might be wrong environment to look for args
+                args_to_add <- 
+                    lapply(parent_args[args_to_add]
+                         , eval
+                         , envir = sys.parents()[which(sys.parents() == fr)[1] - 1])
+                explicit_args <- c(explicit_args, args_to_add)
             }
         }
         ## stop searching frames stack at search_up_to_call call
