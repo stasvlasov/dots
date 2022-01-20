@@ -127,10 +127,10 @@
 <div class="section level1">
 <h1 id="features-of-get_dots-function">Features of <code>get_dots</code> function<a class="anchor" aria-label="anchor" href="#features-of-get_dots-function"></a>
 </h1>
-<p><code>get_dots</code> can collect and update <code>...</code> arguments up through stack of nested of calls. This is controlled with <code>search_up_nframes</code> parameter</p>
+<p><code>get_dots</code> can collect and update <code>...</code> arguments up through stack of nested of calls. This is controlled with <code>search_depth</code> parameter</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>util &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">0</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># get dots and bind updated arguments into environment</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    dots &lt;-<span class="st"> </span><span class="kw">get_dots</span>(<span class="dt">search_up_nframes =</span> 3L)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    dots &lt;-<span class="st"> </span><span class="kw">get_dots</span>(<span class="dt">search_depth =</span> 3L)</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">for</span> (v <span class="cf">in</span> <span class="kw">names</span>(dots)) <span class="kw">assign</span>(v, dots[[v]])</span>
 <span id="cb5-5"><a href="#cb5-5"></a>    <span class="co"># util just reports it arguments</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a>    <span class="kw">message</span>(<span class="st">"foo: "</span>, foo, <span class="st">", bar: "</span>, bar)</span>

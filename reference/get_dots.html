@@ -53,10 +53,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_dots</span><span class="op">(</span>
   function_or_arg_list <span class="op">=</span> <span class="cn">NULL</span>,
   select_args <span class="op">=</span> <span class="cn">NULL</span>,
-  search_while_calls_have_formals <span class="op">=</span> <span class="st">"..."</span>,
-  search_while_calls_belong_to_env <span class="op">=</span> <span class="cn">NULL</span>,
-  search_while_calls_regexp <span class="op">=</span> <span class="cn">NULL</span>,
-  search_up_nframes <span class="op">=</span> <span class="fl">1L</span>,
+  search_calls_with_formals <span class="op">=</span> <span class="st">"..."</span>,
+  search_calls_of_env <span class="op">=</span> <span class="cn">NULL</span>,
+  search_calls_regexp <span class="op">=</span> <span class="cn">NULL</span>,
+  search_depth <span class="op">=</span> <span class="fl">1L</span>,
   search_up_to_call <span class="op">=</span> <span class="cn">NULL</span>,
   skip_checks_for_parent_call <span class="op">=</span> <span class="cn">TRUE</span>,
   eval_default_args <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -70,18 +70,18 @@
 <dd><p>The end function that meant to accept dots arguments (default arguments accessed with <code>formals(function_or_arg_list)</code>) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with <code>sys.function(-1L)</code>).</p></dd>
 <dt>select_args</dt>
 <dd><p>Which arguments to select from <code>function_or_arg_list</code>. Ether character or numeric vector.</p></dd>
-<dt>search_while_calls_have_formals</dt>
+<dt>search_calls_with_formals</dt>
 <dd><p>Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.</p></dd>
-<dt>search_while_calls_belong_to_env</dt>
+<dt>search_calls_of_env</dt>
 <dd><p>Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.</p></dd>
-<dt>search_while_calls_regexp</dt>
+<dt>search_calls_regexp</dt>
 <dd><p>Regular expression that each function name in upper calls to should matched to continue looking up the call stack for updates in dots arguments.</p></dd>
-<dt>search_up_nframes</dt>
-<dd><p>Number of frames (aka environments) in calling stack to look up for updates in dots arguments.</p></dd>
+<dt>search_depth</dt>
+<dd><p>Number of frames (aka environments) down in calling stack to look up arguments.</p></dd>
 <dt>search_up_to_call</dt>
 <dd><p>The name of the call before which to continue looking up the call stack for updates in dots arguments.</p></dd>
 <dt>skip_checks_for_parent_call</dt>
-<dd><p>Whether to skip checking <code>search_while_calls_have_formals</code> <code>search_while_calls_belong_to_env</code> <code>search_while_calls_regexp</code></p></dd>
+<dd><p>Whether to skip checking <code>search_calls_with_formals</code> <code>search_calls_of_env</code> <code>search_calls_regexp</code></p></dd>
 <dt>eval_default_args</dt>
 <dd><p>Whether to evaluate default arguments. Default is do not evaluate (FALSE) assuming that all argument are simple values (i.e., evaluates to itself)</p></dd>
 <dt>return_unlisted_if_single_arg</dt>
@@ -126,7 +126,7 @@
 <span class="r-in"><span class="co"># Usage in nested calls</span></span>
 <span class="r-in"><span class="va">util</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">foo</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">bar</span> <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">    <span class="co"># get dots and bind updated arguments into environment</span></span>
-<span class="r-in">    <span class="va">dots</span> <span class="op">&lt;-</span> <span class="fu">get_dots</span><span class="op">(</span>search_up_nframes <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span>
+<span class="r-in">    <span class="va">dots</span> <span class="op">&lt;-</span> <span class="fu">get_dots</span><span class="op">(</span>search_depth <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span>
 <span class="r-in">    <span class="kw">for</span> <span class="op">(</span><span class="va">v</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">dots</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">dots</span><span class="op">[[</span><span class="va">v</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-in">    <span class="co"># util just reports it arguments</span></span>
 <span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"foo: "</span>, <span class="va">foo</span>, <span class="st">", bar: "</span>, <span class="va">bar</span><span class="op">)</span></span>
