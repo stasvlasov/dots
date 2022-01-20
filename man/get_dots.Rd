@@ -7,10 +7,10 @@
 get_dots(
   function_or_arg_list = NULL,
   select_args = NULL,
-  search_while_calls_have_formals = "...",
-  search_while_calls_belong_to_env = NULL,
-  search_while_calls_regexp = NULL,
-  search_up_nframes = 1L,
+  search_calls_with_formals = "...",
+  search_calls_of_env = NULL,
+  search_calls_regexp = NULL,
+  search_depth = 1L,
   search_up_to_call = NULL,
   skip_checks_for_parent_call = TRUE,
   eval_default_args = FALSE,
@@ -22,17 +22,17 @@ get_dots(
 
 \item{select_args}{Which arguments to select from \code{function_or_arg_list}. Ether character or numeric vector.}
 
-\item{search_while_calls_have_formals}{Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.}
+\item{search_calls_with_formals}{Formals (parameters, arguments) that should be present in each upper call to continue looking up the call stack for updates in dots arguments.}
 
-\item{search_while_calls_belong_to_env}{Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.}
+\item{search_calls_of_env}{Environment/package name (character string) to which each function in upper calls to should belong to continue looking up the call stack for updates in dots arguments.}
 
-\item{search_while_calls_regexp}{Regular expression that each function name in upper calls to should matched to continue looking up the call stack for updates in dots arguments.}
+\item{search_calls_regexp}{Regular expression that each function name in upper calls to should matched to continue looking up the call stack for updates in dots arguments.}
 
-\item{search_up_nframes}{Number of frames (aka environments) in calling stack to look up for updates in dots arguments.}
+\item{search_depth}{Number of frames (aka environments) down in calling stack to look up arguments.}
 
 \item{search_up_to_call}{The name of the call before which to continue looking up the call stack for updates in dots arguments.}
 
-\item{skip_checks_for_parent_call}{Whether to skip checking \code{search_while_calls_have_formals} \code{search_while_calls_belong_to_env} \code{search_while_calls_regexp}}
+\item{skip_checks_for_parent_call}{Whether to skip checking \code{search_calls_with_formals} \code{search_calls_of_env} \code{search_calls_regexp}}
 
 \item{eval_default_args}{Whether to evaluate default arguments. Default is do not evaluate (FALSE) assuming that all argument are simple values (i.e., evaluates to itself)}
 
@@ -73,7 +73,7 @@ main(foo = 2, bar = 2)
 # Usage in nested calls
 util <- function(foo = 0, bar = 0) {
     # get dots and bind updated arguments into environment
-    dots <- get_dots(search_up_nframes = 3L)
+    dots <- get_dots(search_depth = 3L)
     for (v in names(dots)) assign(v, dots[[v]])
     # util just reports it arguments
     message("foo: ", foo, ", bar: ", bar)

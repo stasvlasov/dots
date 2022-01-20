@@ -72,11 +72,11 @@ Note that the `get_dots` function should be called with `:::` as `dots:::get_dot
 
 # Features of `get_dots` function
 
-`get_dots` can collect and update `...` arguments up through stack of nested of calls. This is controlled with `search_up_nframes` parameter
+`get_dots` can collect and update `...` arguments up through stack of nested of calls. This is controlled with `search_depth` parameter
 
     util <- function(foo = 0, bar = 0) {
         # get dots and bind updated arguments into environment
-        dots <- get_dots(search_up_nframes = 3L)
+        dots <- get_dots(search_depth = 3L)
         for (v in names(dots)) assign(v, dots[[v]])
         # util just reports it arguments
         message("foo: ", foo, ", bar: ", bar)
