@@ -14,6 +14,11 @@ util <- function(foo = 0, bar = 0) {
     list(foo, bar)
 }
 
+## for some reason does not work with rcmdcheck::rcmdcheck()
+## Error in get_dots(expect_equal) : 
+## argument "args_updated" is missing, with no default
+## Calls: <Anonymous> ... all.equal.list -> attr.all.equal -> mode -> get_dots
+## Execution halted
 ## expect_equal(get_dots(expect_equal)
 ##            , as.list(formals("expect_equal")))
 

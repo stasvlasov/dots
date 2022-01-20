@@ -1,13 +1,15 @@
 Package: dots
-Title: An alternative way to interact with `...` arguments
+Title: Provides access to arguments of nested functions. Sort of an
+    alterative mechanism to passing `...` arguments but with more
+    features.
 Version: 0.0.0.9000
 Date: 2022-01-20
 Authors@R: 
     person("Stanislav", "Vlasov", , "s.vlasov@uvt.nl", role = c("aut", "cre"))
-Description: Provides access to `...` dots arguments without explicitly
-    passing it through calling stack and allows updating default values
-    that are explicitly set throughout calling stack (lower calls take
-    prevalence).
+Description: Provides access to higher level call's arguments (including
+    `...` dots arguments) without explicitly passing it through calling
+    stack and allows updating default values that are explicitly set
+    throughout calling stack (i.e., lower calls take prevalence).
 License: Apache License (>= 2)
 URL: https://stasvlasov.github.io/dots/
 BugReports: https://github.com/stasvlasov/dots/issues

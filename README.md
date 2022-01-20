@@ -2,9 +2,9 @@
 [![codecov](https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5)](https://codecov.io/gh/stasvlasov/dots)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/dots)
 
-An alternative way to interact with `...` arguments
+Provides access to arguments of nested functions. Sort of an alterative mechanism to passing `...` arguments but with more features.
 
-Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
+Provides access to higher level call's arguments (including `...` dots arguments) without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (i.e., lower calls take prevalence).
 
 
 # The 'problem' this package solves

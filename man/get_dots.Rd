@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_dots.r
 \name{get_dots}
 \alias{get_dots}
-\title{An alternative way to interact with \code{...} arguments}
+\title{Provides access to arguments of nested functions. Sort of an alterative mechanism to passing \code{...} arguments but with more features.}
 \usage{
 get_dots(
   function_or_arg_list = NULL,
@@ -42,7 +42,7 @@ get_dots(
 List of updated dots arguments
 }
 \description{
-Provides access to \code{...} dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
+Provides access to higher level call's arguments (including \code{...} dots arguments) without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (i.e., lower calls take prevalence).
 }
 \examples{
 # Make get_dots available for following examples

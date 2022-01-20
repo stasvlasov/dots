@@ -1,6 +1,6 @@
-##' An alternative way to interact with `...` arguments
+##' Provides access to arguments of nested functions. Sort of an alterative mechanism to passing `...` arguments but with more features.
 ##'
-##' Provides access to `...` dots arguments without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (lower calls take prevalence).
+##' Provides access to higher level call's arguments (including `...` dots arguments) without explicitly passing it through calling stack and allows updating default values that are explicitly set throughout calling stack (i.e., lower calls take prevalence).
 ##'
 ##' @param function_or_arg_list The end function that meant to accept dots arguments (default arguments accessed with `formals(function_or_arg_list)`) or just explicit list of default dots arguments that will be searched up in calling stack and updated if set explicitly in higher calls. If set to NULL then use formals of the parent call (assessed with `sys.function(-1L)`).
 ##' @param select_args Which arguments to select from `function_or_arg_list`. Ether character or numeric vector.
