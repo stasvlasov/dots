@@ -90,7 +90,7 @@
 <span id="cb2-4"><a href="#cb2-4"></a></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="kw">main</span>(<span class="dt">foo =</span> <span class="dv">0</span>, <span class="dt">bar =</span> <span class="dv">1</span>)</span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; foo: 0, bar: 1</span></span></code></pre></div>
-<p>But, here is the problem if at some point you need to set one of the arguments in your <code>util</code> function directlly this can introduce errors (known as “matched by multiple actual arguments”):</p>
+<p>But, here is the problem: if at some point you need to set one of the arguments in your <code>util</code> function directlly this can introduce errors (known as “matched by multiple actual arguments”):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>main &lt;-<span class="st"> </span><span class="cf">function</span> (...) {</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">util</span>(<span class="dt">foo =</span> <span class="dv">1</span>, ...)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>}</span>
@@ -185,6 +185,7 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=dots" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/stasvlasov/dots/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/stasvlasov/dots/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -217,7 +218,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/stasvlasov/get_dots/actions" class="external-link"><img src="https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/stasvlasov/dots" class="external-link"><img src="https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5" alt="codecov"></a></li>
+<li><a href="https://codecov.io/gh/stasvlasov/get_dots" class="external-link"><img src="https://codecov.io/gh/stasvlasov/get_dots/branch/master/graph/badge.svg?token=ACDBEL2JY5" alt="codecov"></a></li>
 </ul>
 </div>
 
@@ -232,7 +233,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
