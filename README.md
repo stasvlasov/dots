@@ -1,6 +1,6 @@
 [![R-CMD-check](https://github.com/stasvlasov/get_dots/workflows/R-CMD-check/badge.svg)](https://github.com/stasvlasov/get_dots/actions)
-[![codecov](https://codecov.io/gh/stasvlasov/dots/branch/master/graph/badge.svg?token=ACDBEL2JY5)](https://codecov.io/gh/stasvlasov/dots)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/dots)
+[![codecov](https://codecov.io/gh/stasvlasov/get_dots/branch/master/graph/badge.svg?token=ACDBEL2JY5)](https://codecov.io/gh/stasvlasov/get_dots)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/stasvlasov/get_dots)
 
 Provides access to arguments of nested functions. Sort of an alterative mechanism to passing `...` arguments but with more features.
 
@@ -27,7 +27,7 @@ You are going to use this `util` function a lot internaly and you want to pass s
     main(foo = 0, bar = 1)
     #> foo: 0, bar: 1
 
-But, here is the problem if at some point you need to set one of the arguments in your `util` function directlly this can introduce errors (known as "matched by multiple actual arguments"):
+But, here is the problem: if at some point you need to set one of the arguments in your `util` function directlly this can introduce errors (known as "matched by multiple actual arguments"):
 
     main <- function (...) {
         util(foo = 1, ...)
